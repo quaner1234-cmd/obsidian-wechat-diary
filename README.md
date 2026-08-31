@@ -84,6 +84,27 @@ source: wechat-diary
 
 前身 Python 常驻版 [wechat-diary](https://github.com/ArtemisLin/wechat-diary) 已归档(2026-08), 它写出的库遵循同一契约, 本插件可直接接着写。
 
+
+## MiMo 文件转 Markdown（此 fork 新增）
+
+这个 fork 保留原版“发什么记什么”的机械记录原则：普通日记、语音转写和附件保存**不会调用 AI**。只有你明确发送「转成 md」「把刚才的文件转成 Markdown」这类命令时，才会调用你自己配置的小米 MiMo API。
+
+默认配置：
+
+- 接口：`https://api.xiaomimimo.com/v1/chat/completions`
+- 模型：`mimo-v2.5-pro`
+- API Key：需要你在 Obsidian → WeChat Diary → **AI 文档转换 (MiMo)** 中自己填写，Key 仍使用 Obsidian Secret Storage 保存。
+
+使用方式：
+
+1. 在微信里把文件直接发给这个 bot（也可以文件和“转成 md”同一条发送）。
+2. 再说「转成 md」或「把刚才的文件整理成 Markdown」。
+3. 转换结果写入 `日记/converted/YYYY/原文件名.md`，原附件继续保留。
+
+当前第一版只直接读取文本类文件：TXT、MD、CSV、TSV、JSON、YAML、HTML、XML、日志、配置文件和常见代码文本。**PDF、DOCX、PPTX、XLSX 暂不转换**：这些格式需要独立解析器；在没有可靠解析器前，插件会明确提示而不是把二进制内容交给模型或假装转换成功。
+
+单文件暂限约 2MB / 60 万字符。这个限制是为了先把“微信文件 → Obsidian → 明确命令 → MiMo → 新 Markdown”这条主链稳定跑通，再扩展复杂格式。
+
 ## License
 
 本项目采用 **双许可(dual licensing)** 模式, 版权归作者 ArtemisLin 所有:
